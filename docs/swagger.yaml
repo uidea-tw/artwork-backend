@@ -1,0 +1,166 @@
+definitions:
+  app.EmptyObject:
+    type: object
+  app.EmptySuccessResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/app.EmptyObject'
+      msg:
+        $ref: '#/definitions/app.EmptyObject'
+    type: object
+  app.ErrorResponse:
+    properties:
+      code:
+        type: integer
+      details:
+        items:
+          type: string
+        type: array
+      msg:
+        type: string
+    type: object
+  errcode.Error:
+    type: object
+  service.CreateAdminRequest:
+    properties:
+      name:
+        maxLength: 20
+        minLength: 2
+        type: string
+      password:
+        maxLength: 20
+        minLength: 5
+        type: string
+      username:
+        maxLength: 20
+        minLength: 5
+        type: string
+    required:
+    - name
+    - password
+    - username
+    type: object
+  service.LoginAdminRequest:
+    properties:
+      password:
+        maxLength: 20
+        minLength: 5
+        type: string
+      username:
+        maxLength: 20
+        minLength: 5
+        type: string
+    required:
+    - password
+    - username
+    type: object
+info:
+  contact: {}
+paths:
+  /admins:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 新增後台管理員參數
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/service.CreateAdminRequest'
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/app.ErrorResponse'
+        "409":
+          description: 資料已存在
+          schema:
+            $ref: '#/definitions/app.ErrorResponse'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/app.ErrorResponse'
+      summary: '[AM-003] 建立後台管理員'
+      tags:
+      - Admin
+  /admins/auth/login:
+    post:
+      parameters:
+      - description: 登入請求參數
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/service.LoginAdminRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AM-001] 登入後台管理員'
+      tags:
+      - Admin
+  /admins/auth/logout:
+    post:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AM-002] 登出後台管理員'
+      tags:
+      - Admin
+  /api/v1/admins/login:
+    post:
+      parameters:
+      - description: 登入請求參數
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/service.LoginAdminRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AM-001] 登入後台管理員'
+      tags:
+      - Author
+swagger: "2.0"

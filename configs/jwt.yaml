@@ -1,0 +1,4 @@
+JWT:
+  Secret: eddycjy
+  Issuer: blog-service
+  Expire: 7200
