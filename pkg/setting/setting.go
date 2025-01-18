@@ -51,11 +51,12 @@ type DatabaseSettingS struct {
 func NewSetting() (*Setting, error) {
 	vp := viper.New()
 
-	exePath, _ := os.Executable()
-	basePath := filepath.Dir(exePath)
-	configPath := filepath.Join(basePath, "configs")
-	entries, err := os.ReadDir(configPath)
+	configPath := os.Getenv("CONFIG_DIR")
+	if configPath == "" {
+		configPath = "configs/"
+	}
 
+	entries, err := os.ReadDir(configPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read configs directory: %w", err)
 	}

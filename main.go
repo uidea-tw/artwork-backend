@@ -67,6 +67,7 @@ func setupSetting() error {
 
 func main() {
 	router := routers.NewRouter()
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = global.ServerSetting.HttpPort
