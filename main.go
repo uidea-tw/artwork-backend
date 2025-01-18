@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/uidea/artwork-backend/global"
@@ -66,9 +67,13 @@ func setupSetting() error {
 
 func main() {
 	router := routers.NewRouter()
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = global.ServerSetting.HttpPort
+	}
 
 	s := &http.Server{
-		Addr:           ":" + global.ServerSetting.HttpPort,
+		Addr:           ":" + port,
 		Handler:        router,
 		ReadTimeout:    time.Second * global.ServerSetting.ReadTimeout,
 		WriteTimeout:   time.Second * global.ServerSetting.WriteTimeout,
