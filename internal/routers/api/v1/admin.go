@@ -17,17 +17,13 @@ func NewAdmin() Admin {
 // @Summary	[AM-001] 登入後台管理員
 // @Produce	json
 // @Tags		Admin
-//
 // @Param		body	body		service.LoginAdminRequest	true	"登入請求參數"
-//
 // @Success	200		{object}	app.EmptySuccessResponse{}	"成功"
 // @Failure	400		{object}	errcode.Error				"請求失敗"
 // @Failure	500		{object}	errcode.Error				"伺服器異常"
 // @Router		/admins/auth/login [post]
 func (a Admin) Login(c *gin.Context) {
-
 	param := service.LoginAdminRequest{}
-
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
@@ -59,8 +55,8 @@ func (a Admin) Login(c *gin.Context) {
 // @Summary	[AM-002] 登出後台管理員
 // @Tags		Admin
 // @Success	200	{object}	app.EmptySuccessResponse{}	"成功"
-// @Failure	400	{object}	errcode.Error				"請求失敗"
-// @Failure	500	{object}	errcode.Error				"伺服器異常"
+// @Failure	400	{object}	app.ErrorResponse{}		"請求失敗"
+// @Failure	500	{object}	app.ErrorResponse{}		"伺服器異常"
 // @Router		/admins/auth/logout [post]
 func (a Admin) Logout(c *gin.Context) {
 	c.SetCookie("login_token", "", -1, "/", "", false, true)
@@ -70,12 +66,12 @@ func (a Admin) Logout(c *gin.Context) {
 
 // @Summary	[AM-003] 建立後台管理員
 // @Tags		Admin
-// @Param		body	body		service.CreateAdminRequest	true	"新增後台管理員參數"
-// @Accept	json
+// @Param		body	body	service.CreateAdminRequest	true	"新增後台管理員參數"
+// @Accept		json
 // @Success	200	{object}	app.EmptySuccessResponse{}	"成功"
-// @Failure	400	{object}	app.ErrorResponse{}				"請求失敗"
-// @Failure	409	{object}	app.ErrorResponse{}				"資料已存在"
-// @Failure	500	{object}	app.ErrorResponse{}				"伺服器異常"
+// @Failure	400	{object}	app.ErrorResponse{}			"請求失敗"
+// @Failure	409	{object}	app.ErrorResponse{}			"資料已存在"
+// @Failure	500	{object}	app.ErrorResponse{}			"伺服器異常"
 // @Router		/admins [post]
 func (a Admin) Create(c *gin.Context) {
 	param := service.CreateAdminRequest{}
@@ -99,8 +95,3 @@ func (a Admin) Create(c *gin.Context) {
 
 	response.ToResponse(gin.H{})
 }
-
-// TODO: will implement
-func (a Admin) GET(c *gin.Context)    {}
-func (a Admin) Delete(c *gin.Context) {}
-func (a Admin) PUT(c *gin.Context)    {}

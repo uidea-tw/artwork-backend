@@ -71,6 +71,8 @@ func (e *Error) StatusCode() int {
 		return http.StatusTooManyRequests
 	case AlreadyExistsRecord.Code():
 		return http.StatusConflict
+	case NotFoundRegisterAccount.Code():
+		return http.StatusNotFound
 	}
 
 	return http.StatusInternalServerError

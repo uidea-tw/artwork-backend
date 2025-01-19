@@ -27,14 +27,17 @@ definitions:
   service.CreateAdminRequest:
     properties:
       name:
+        example: admin
         maxLength: 20
         minLength: 2
         type: string
       password:
+        example: password
         maxLength: 20
         minLength: 5
         type: string
       username:
+        example: admin
         maxLength: 20
         minLength: 5
         type: string
@@ -128,15 +131,259 @@ paths:
         "400":
           description: 請求失敗
           schema:
+            $ref: '#/definitions/app.ErrorResponse'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/app.ErrorResponse'
+      summary: '[AM-002] 登出後台管理員'
+      tags:
+      - Admin
+  /articles:
+    delete:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
             $ref: '#/definitions/errcode.Error'
         "500":
           description: 伺服器異常
           schema:
             $ref: '#/definitions/errcode.Error'
-      summary: '[AM-002] 登出後台管理員'
+      summary: '[AC-002] 取得文章列表'
       tags:
-      - Admin
-  /api/v1/admins/login:
+      - Aritcle
+    post:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AC-003] 新增文章'
+      tags:
+      - Aritcle
+  /articles/{id}:
+    delete:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AC-005] 刪除文章'
+      tags:
+      - Aritcle
+    get:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AC-001] 取得文章資訊'
+      tags:
+      - Aritcle
+    put:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AC-004] 更新文章'
+      tags:
+      - Aritcle
+  /artworks:
+    delete:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AC-002] 取得作品列表'
+      tags:
+      - Artwork
+    post:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AC-003] 新增作品'
+      tags:
+      - Artwork
+  /artworks/{id}:
+    delete:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AC-005] 刪除作品'
+      tags:
+      - Artwork
+    get:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AC-001] 取得作品資訊'
+      tags:
+      - Artwork
+    put:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[AC-004] 更新作品'
+      tags:
+      - Artwork
+  /users:
+    get:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[US-005] 取得使用者列表'
+      tags:
+      - User
+  /users/{id}:
+    delete:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[US-007] 刪除使用者'
+      tags:
+      - User
+    get:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[US-004] 取得使用者資訊'
+      tags:
+      - User
+    put:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[US-006] 更新使用者資訊'
+      tags:
+      - User
+  /users/auth/login:
     post:
       parameters:
       - description: 登入請求參數
@@ -160,7 +407,47 @@ paths:
           description: 伺服器異常
           schema:
             $ref: '#/definitions/errcode.Error'
-      summary: '[AM-001] 登入後台管理員'
+      summary: '[US-001] 登入使用者'
       tags:
-      - Author
+      - User
+  /users/auth/logout:
+    post:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[US-002] 登出使用者'
+      tags:
+      - User
+  /users/auth/signup:
+    post:
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/app.EmptySuccessResponse'
+        "400":
+          description: 請求失敗
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "409":
+          description: 資料已存在
+          schema:
+            $ref: '#/definitions/app.ErrorResponse'
+        "500":
+          description: 伺服器異常
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: '[US-003] 註冊帳號'
+      tags:
+      - User
 swagger: "2.0"

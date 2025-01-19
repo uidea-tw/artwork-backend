@@ -26,7 +26,7 @@ func (a Admin) Create(db *gorm.DB) error {
 func (a Admin) Get(db *gorm.DB) (Admin, error) {
 	var admin Admin
 	err := db.Where("username = ?", a.Username).First(&admin).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	if err != nil {
 		return Admin{}, err
 	}
 	return admin, nil

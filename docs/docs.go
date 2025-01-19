@@ -121,6 +121,60 @@ const docTemplate = `{
                     "400": {
                         "description": "請求失敗",
                         "schema": {
+                            "$ref": "#/definitions/app.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/app.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/articles": {
+            "post": {
+                "tags": [
+                    "Aritcle"
+                ],
+                "summary": "[AC-003] 新增文章",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Aritcle"
+                ],
+                "summary": "[AC-002] 取得文章列表",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
                             "$ref": "#/definitions/errcode.Error"
                         }
                     },
@@ -133,15 +187,257 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/admins/login": {
+        "/articles/{id}": {
+            "get": {
+                "tags": [
+                    "Aritcle"
+                ],
+                "summary": "[AC-001] 取得文章資訊",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Aritcle"
+                ],
+                "summary": "[AC-004] 更新文章",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Aritcle"
+                ],
+                "summary": "[AC-005] 刪除文章",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/artworks": {
+            "post": {
+                "tags": [
+                    "Artwork"
+                ],
+                "summary": "[AC-003] 新增作品",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Artwork"
+                ],
+                "summary": "[AC-002] 取得作品列表",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/artworks/{id}": {
+            "get": {
+                "tags": [
+                    "Artwork"
+                ],
+                "summary": "[AC-001] 取得作品資訊",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Artwork"
+                ],
+                "summary": "[AC-004] 更新作品",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Artwork"
+                ],
+                "summary": "[AC-005] 刪除作品",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "[US-005] 取得使用者列表",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/auth/login": {
             "post": {
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Author"
+                    "User"
                 ],
-                "summary": "[AM-001] 登入後台管理員",
+                "summary": "[US-001] 登入使用者",
                 "parameters": [
                     {
                         "description": "登入請求參數",
@@ -153,6 +449,148 @@ const docTemplate = `{
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/auth/logout": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "[US-002] 登出使用者",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/auth/signup": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "[US-003] 註冊帳號",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "409": {
+                        "description": "資料已存在",
+                        "schema": {
+                            "$ref": "#/definitions/app.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "[US-004] 取得使用者資訊",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "[US-006] 更新使用者資訊",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.EmptySuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "請求失敗",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "伺服器異常",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "[US-007] 刪除使用者",
                 "responses": {
                     "200": {
                         "description": "成功",
@@ -226,17 +664,20 @@ const docTemplate = `{
                 "name": {
                     "type": "string",
                     "maxLength": 20,
-                    "minLength": 2
+                    "minLength": 2,
+                    "example": "admin"
                 },
                 "password": {
                     "type": "string",
                     "maxLength": 20,
-                    "minLength": 5
+                    "minLength": 5,
+                    "example": "password"
                 },
                 "username": {
                     "type": "string",
                     "maxLength": 20,
-                    "minLength": 5
+                    "minLength": 5,
+                    "example": "admin"
                 }
             }
         },

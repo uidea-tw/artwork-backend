@@ -9,9 +9,9 @@ import (
 )
 
 type CreateAdminRequest struct {
-	Name     string `json:"name" binding:"required,min=2,max=20"`
-	Username string `json:"username" binding:"required,min=5,max=20"`
-	Password string `json:"password" binding:"required,min=5,max=20"`
+	Name     string `json:"name" binding:"required,min=2,max=20" example:"admin"`
+	Username string `json:"username" binding:"required,min=5,max=20" example:"admin"`
+	Password string `json:"password" binding:"required,min=5,max=20" example:"password"`
 }
 
 type LoginAdminRequest struct {
@@ -20,18 +20,20 @@ type LoginAdminRequest struct {
 }
 
 func (svc *Service) CreateAdmin(param *CreateAdminRequest) error {
-	_, err := svc.dao.GetAdmin(param.Username)
+	admin, err := svc.dao.GetAdmin(param.Username)
+
+	fmt.Println("admin not found", admin)
+	fmt.Println("admin not found", err)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		password, _ := bcrypt.GenerateFromPassword([]byte(param.Password), bcrypt.DefaultCost)
+		return svc.dao.CreateAdmin(param.Name, param.Username, string(password))
+	}
 
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			password, _ := bcrypt.GenerateFromPassword([]byte(param.Password), bcrypt.DefaultCost)
-			return svc.dao.CreateAdmin(param.Name, param.Username, string(password))
-		} else {
-			return fmt.Errorf("failed to query admin: %w", err)
-		}
-	} else {
-		return errors.New("admin already exists")
+		return fmt.Errorf("failed to query admin: %w", err)
 	}
+
+	return errors.New("admin already exists")
 }
 
 func (svc *Service) CheckAuth(param *LoginAdminRequest) error {
