@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/uidea/artwork-backend/pkg/setting"
 	"gorm.io/driver/postgres"
@@ -28,12 +29,26 @@ type config struct {
 }
 
 func NewDBEngine(database *setting.DatabaseSettingS) (*gorm.DB, error) {
-	conf := &config{
-		user:   database.UserName,
-		pass:   database.Password,
-		adrr:   "127.0.0.1",
-		port:   "5432",
-		dbname: database.DBName,
+	var conf *config
+
+	app_env := os.Getenv("APP_ENV")
+
+	if app_env == "production" {
+		conf = &config{
+			user:   os.Getenv("DB_USER"),
+			pass:   os.Getenv("DB_PASS"),
+			adrr:   os.Getenv("DB_HOST"),
+			port:   os.Getenv("DB_PORT"),
+			dbname: os.Getenv("DB_NAME"),
+		}
+	} else {
+		conf = &config{
+			user:   database.UserName,
+			pass:   database.Password,
+			adrr:   "127.0.0.1",
+			port:   "5432",
+			dbname: database.DBName,
+		}
 	}
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%v sslmode=disable TimeZone=%s", conf.adrr, conf.user, conf.pass, conf.dbname, conf.port, "Asia/Taipei")

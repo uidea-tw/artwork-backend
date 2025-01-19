@@ -21,3 +21,4 @@
 2025/01/19 01:39:06 {"callers":["/Users/henry/Git/Outsourcing/artwork-backend/main.go: 27 main.init.0"],"level":"error","message":"svc.CreateTag err: admin already exists","time":1737221946587980000}
 2025/01/19 01:41:49 {"callers":["/Users/henry/Git/Outsourcing/artwork-backend/main.go: 27 main.init.0"],"level":"error","message":"svc.CreateTag err: admin already exists","time":1737222109929100000}
 2025/01/19 01:41:59 {"callers":["/Users/henry/Git/Outsourcing/artwork-backend/main.go: 27 main.init.0"],"level":"error","message":"svc.CreateTag err: admin already exists","time":1737222119326185000}
+2025/01/19 10:13:16 {"callers":["/Users/henry/Git/Outsourcing/artwork-backend/main.go: 28 main.init.0"],"level":"error","message":"svc.CreateTag err: admin already exists","time":1737252796947018000}
