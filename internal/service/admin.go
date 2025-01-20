@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/uidea/artwork-backend/internal/model"
 	"golang.org/x/crypto/bcrypt"
@@ -18,6 +19,13 @@ type CreateAdminRequest struct {
 type LoginAdminRequest struct {
 	Username string `json:"username" binding:"required,min=5,max=20"`
 	Password string `json:"password" binding:"required,min=5,max=20"`
+}
+
+type AdminInfo struct {
+	ID        uint32    `json:"id"`
+	Name      string    `json:"name"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func (svc *Service) CreateAdmin(param *CreateAdminRequest) error {
@@ -45,10 +53,15 @@ func (svc *Service) CheckAuth(param *LoginAdminRequest) (model.Admin, error) {
 	return admin, nil
 }
 
-func (svc *Service) GetAdminById(id string) (model.Admin, error) {
+func (svc *Service) GetAdminById(id string) (AdminInfo, error) {
 	admin, err := svc.dao.GetAdminByID(id)
 	if err != nil {
-		return model.Admin{}, err
+		return AdminInfo{}, err
 	}
-	return admin, nil
+	return AdminInfo{
+		ID:        admin.ID,
+		Name:      admin.Name,
+		CreatedAt: admin.CreatedAt,
+		UpdatedAt: admin.UpdatedAt,
+	}, nil
 }

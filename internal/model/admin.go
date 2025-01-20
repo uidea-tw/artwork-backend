@@ -9,8 +9,8 @@ import (
 type Admin struct {
 	ID        uint32    `gorm:"primary_key" json:"id"`
 	Name      string    `json:"name"`
-	Username  string    `json:"-" gorm:"-"`
-	Password  string    `json:"-" gorm:"-"`
+	Username  string    `json:"username"`
+	Password  string    `json:"password"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -34,8 +34,7 @@ func (a Admin) Get(db *gorm.DB) (Admin, error) {
 
 func (a Admin) GetById(db *gorm.DB) (Admin, error) {
 	var admin Admin
-	if err := db.Find(&admin, "id = ?", a.ID).Error; err != nil {
-
+	if err := db.First(&admin, "id = ?", a.ID).Error; err != nil {
 		return Admin{}, err
 	}
 

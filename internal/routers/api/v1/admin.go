@@ -107,6 +107,7 @@ func (a Admin) Get(c *gin.Context) {
 	if err != nil {
 		global.Logger.Errorf(c, "svc.GetAdminProfile err: %v", err)
 		response.ToErrorResponse(errcode.UnauthorizedTokenError.WithDetails(err.Error()))
+		return
 	}
 	response.ToResponse(admin)
 }
