@@ -1,4 +1,4 @@
 JWT:
   Secret: eddycjy
-  Issuer: blog-service
-  Expire: 7200
+  Issuer: Mk
+  Expire: 7200s

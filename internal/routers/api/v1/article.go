@@ -30,7 +30,10 @@ func (t Article) List(c *gin.Context) {}
 // @Failure	400	{object}	errcode.Error				"請求失敗"
 // @Failure	500	{object}	errcode.Error				"伺服器異常"
 // @Router		/articles [post]
-func (t Article) Create(c *gin.Context) {}
+func (t Article) Create(c *gin.Context) {
+	// 1. 獲取參數
+
+}
 
 // @Summary	[AC-004] 更新文章
 // @Tags		Aritcle

@@ -12,4 +12,10 @@ var (
 	NotFoundRegisterAccount   = NewError(1007, "找尋不到註冊帳號")
 	TooManyRequests           = NewError(1008, "請求過多")
 	AlreadyExistsRecord       = NewError(1009, "該資料已存在")
+
+	ErrorAdmineFail = NewError(20040001, "建立管理員失敗")
+	ErrorUserFail   = NewError(20040002, "建立作者失敗")
+
+	ErrorGetUserFail    = NewError(20040003, "取得作者資訊失敗")
+	ErrorDeleteUserFail = NewError(20040004, "刪除作者失敗")
 )

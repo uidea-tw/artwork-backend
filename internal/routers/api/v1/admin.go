@@ -33,14 +33,14 @@ func (a Admin) Login(c *gin.Context) {
 	}
 
 	svc := service.New(c.Request.Context())
-	err := svc.CheckAuth(&param)
+	admin, err := svc.CheckAuth(&param)
 	if err != nil {
 		global.Logger.Errorf(c, "svc.CheckAuth err: %v", err)
 		response.ToErrorResponse(errcode.NotFoundRegisterAccount)
 		return
 	}
 
-	token, err := app.GenerateToken(param.Username, param.Password)
+	token, err := app.GenerateAccessToken(param.Username, param.Password, admin.ID)
 	if err != nil {
 		global.Logger.Errorf(c, "app.GenerateToken err: %v", err)
 		response.ToErrorResponse(errcode.UnauthorizedTokenGenerate)
@@ -72,7 +72,7 @@ func (a Admin) Logout(c *gin.Context) {
 // @Failure	400	{object}	app.ErrorResponse{}			"請求失敗"
 // @Failure	409	{object}	app.ErrorResponse{}			"資料已存在"
 // @Failure	500	{object}	app.ErrorResponse{}			"伺服器異常"
-// @Router		/admins [post]
+// @Router		/admins [post]ㄆ
 func (a Admin) Create(c *gin.Context) {
 	param := service.CreateAdminRequest{}
 	response := app.NewResponse(c)
@@ -88,10 +88,25 @@ func (a Admin) Create(c *gin.Context) {
 	err := svc.CreateAdmin(&param)
 
 	if err != nil {
-		global.Logger.Errorf(c, "svc.CreateTag err: %v", err)
+		global.Logger.Errorf(c, "svc.CreateAdmin err: %v", err)
 		response.ToErrorResponse(errcode.AlreadyExistsRecord.WithDetails(err.Error()))
 		return
 	}
 
 	response.ToResponse(gin.H{})
+}
+
+func (a Admin) Get(c *gin.Context) {
+	response := app.NewResponse(c)
+
+	cookie, _ := c.Cookie("login_token")
+	claims, _ := app.ParseToken(cookie)
+	id, _ := claims.GetSubject()
+	svc := service.New(c.Request.Context())
+	admin, err := svc.GetAdminById(id)
+	if err != nil {
+		global.Logger.Errorf(c, "svc.GetAdminProfile err: %v", err)
+		response.ToErrorResponse(errcode.UnauthorizedTokenError.WithDetails(err.Error()))
+	}
+	response.ToResponse(admin)
 }

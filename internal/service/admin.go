@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/uidea/artwork-backend/internal/model"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -20,10 +21,7 @@ type LoginAdminRequest struct {
 }
 
 func (svc *Service) CreateAdmin(param *CreateAdminRequest) error {
-	admin, err := svc.dao.GetAdmin(param.Username)
-
-	fmt.Println("admin not found", admin)
-	fmt.Println("admin not found", err)
+	_, err := svc.dao.GetAdmin(param.Username)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		password, _ := bcrypt.GenerateFromPassword([]byte(param.Password), bcrypt.DefaultCost)
 		return svc.dao.CreateAdmin(param.Name, param.Username, string(password))
@@ -36,13 +34,21 @@ func (svc *Service) CreateAdmin(param *CreateAdminRequest) error {
 	return errors.New("admin already exists")
 }
 
-func (svc *Service) CheckAuth(param *LoginAdminRequest) error {
+func (svc *Service) CheckAuth(param *LoginAdminRequest) (model.Admin, error) {
 	admin, err := svc.dao.GetAdmin(param.Username)
 	if err != nil {
-		return err
+		return model.Admin{}, err
 	}
 	if err := bcrypt.CompareHashAndPassword([]byte(admin.Password), []byte(param.Password)); err != nil {
-		return err
+		return model.Admin{}, err
 	}
-	return nil
+	return admin, nil
+}
+
+func (svc *Service) GetAdminById(id string) (model.Admin, error) {
+	admin, err := svc.dao.GetAdminByID(id)
+	if err != nil {
+		return model.Admin{}, err
+	}
+	return admin, nil
 }

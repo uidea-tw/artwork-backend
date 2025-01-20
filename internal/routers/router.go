@@ -5,6 +5,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/uidea/artwork-backend/docs"
+	"github.com/uidea/artwork-backend/internal/middleware"
 	v1 "github.com/uidea/artwork-backend/internal/routers/api/v1"
 )
 
@@ -23,6 +24,7 @@ func NewRouter() *gin.Engine {
 	apiv1 := r.Group("/api/v1")
 	{
 		v1AdminsGroup := apiv1.Group("/admins")
+		v1AdminsGroup.Use(middleware.JWT())
 		{
 			v1AuthGroup := v1AdminsGroup.Group("/auth")
 			{
@@ -31,17 +33,12 @@ func NewRouter() *gin.Engine {
 			}
 
 			v1AdminsGroup.POST("/", admin.Create)
+			v1AdminsGroup.GET("/profile", admin.Get)
 		}
 
 		v1UsersGroup := apiv1.Group("/users")
 		{
-			v1AuthGroup := v1UsersGroup.Group("/auth")
-			{
-				v1AuthGroup.POST("/login", user.Login)
-				v1AuthGroup.POST("/logout", user.Logout)
-				v1AuthGroup.POST("/signup", user.Signup)
-			}
-
+			v1UsersGroup.POST("/", user.Create)
 			v1UsersGroup.GET("/:id", user.Get)
 			v1UsersGroup.GET("/", user.List)
 			v1UsersGroup.PUT("/:id", user.Update)

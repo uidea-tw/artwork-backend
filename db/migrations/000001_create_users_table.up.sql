@@ -7,8 +7,8 @@ CREATE TABLE "users" (
     "introduction" varchar,
     "birth" timestamptz,
     "gender" gender NOT NULL,
-    "username" varchar NOT NULL,
-    "password" varchar NOT NULL,
+    "username" varchar,
+    "password" varchar,
     "updated_at" timestamptz NOT NULL DEFAULT (now()),
     "created_at" timestamptz NOT NULL DEFAULT (now())
 );
