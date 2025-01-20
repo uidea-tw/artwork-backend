@@ -99,7 +99,12 @@ func (a Admin) Create(c *gin.Context) {
 func (a Admin) Get(c *gin.Context) {
 	response := app.NewResponse(c)
 
-	cookie, _ := c.Cookie("login_token")
+	cookie, err := c.Cookie("login_token")
+	if err != nil {
+		global.Logger.Errorf(c, "login token err: %v", err)
+		response.ToErrorResponse(errcode.UnauthorizedAuthNotExist.WithDetails(err.Error()))
+		return
+	}
 	claims, _ := app.ParseToken(cookie)
 	id, _ := claims.GetSubject()
 	svc := service.New(c.Request.Context())
