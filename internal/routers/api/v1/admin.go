@@ -1,6 +1,8 @@
 package v1
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/uidea/artwork-backend/global"
 	"github.com/uidea/artwork-backend/internal/service"
@@ -46,8 +48,8 @@ func (a Admin) Login(c *gin.Context) {
 		response.ToErrorResponse(errcode.UnauthorizedTokenGenerate)
 		return
 	}
-
-	c.SetCookie("login_token", token, 3600, "/", "", false, true)
+	c.SetSameSite(http.SameSiteNoneMode)
+	c.SetCookie("login_token", token, 3600, "/", "localhost", false, true)
 
 	response.ToResponse(gin.H{})
 }

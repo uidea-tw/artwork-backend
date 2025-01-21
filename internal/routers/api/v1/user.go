@@ -80,6 +80,7 @@ func (t User) Get(c *gin.Context) {
 func (t User) List(c *gin.Context) {
 	response := app.NewResponse(c)
 	svc := service.New(c.Request.Context())
+
 	users, err := svc.GetUserList()
 	if err != nil {
 		global.Logger.Errorf(c, "svc.GetTagList err: %v", err)
