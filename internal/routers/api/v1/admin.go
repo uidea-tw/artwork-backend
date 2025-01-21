@@ -49,7 +49,7 @@ func (a Admin) Login(c *gin.Context) {
 		return
 	}
 	c.SetSameSite(http.SameSiteLaxMode)
-	c.SetCookie("login_token", token, 3600, "/", "", false, true)
+	c.SetCookie("login_token", token, 3600, "/", "", true, true)
 
 	response.ToResponse(gin.H{})
 }
