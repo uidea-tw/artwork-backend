@@ -48,8 +48,8 @@ func (a Admin) Login(c *gin.Context) {
 		response.ToErrorResponse(errcode.UnauthorizedTokenGenerate)
 		return
 	}
-	c.SetSameSite(http.SameSiteNoneMode)
-	c.SetCookie("login_token", token, 3600, "/", "localhost", false, true)
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("login_token", token, 3600, "/", "", false, true)
 
 	response.ToResponse(gin.H{})
 }
