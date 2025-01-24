@@ -1,8 +1,6 @@
 package v1
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/uidea/artwork-backend/global"
 	"github.com/uidea/artwork-backend/internal/service"
@@ -73,8 +71,7 @@ func (t Artwork) Create(c *gin.Context) {
 	param := service.CreateArtworkRequest{}
 	response := app.NewResponse(c)
 	vaild, errs := app.BindAndValid(c, &param)
-	fmt.Printf("errs: %v \n", errs)
-	fmt.Printf("vaild: %v \n", vaild)
+
 	if !vaild {
 		global.Logger.Errorf(c, "app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
@@ -100,7 +97,7 @@ func (t Artwork) Create(c *gin.Context) {
 // @Failure	500	{object}	errcode.Error				"伺服器異常"
 // @Router		/artworks/{id} [put]
 func (t Artwork) Update(c *gin.Context) {
-	param := service.UpdateArtworRequest{ID: convert.StrTo(c.Param("id")).MustUInt32()}
+	param := service.UpdateArtwordRequest{ID: convert.StrTo(c.Param("id")).MustUInt32()}
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {

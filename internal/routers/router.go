@@ -33,6 +33,7 @@ func NewRouter() *gin.Engine {
 	user := v1.NewUser()
 	article := v1.NewArticle()
 	artwork := v1.NewArtwork()
+	about := v1.NewAbout()
 
 	apiv1 := r.Group("/api/v1")
 	{
@@ -78,11 +79,8 @@ func NewRouter() *gin.Engine {
 
 			v1AboutGroup := v1AdminsGroup.Group("/abouts")
 			{
-				v1AboutGroup.GET("/:id", artwork.Get)
-				v1AboutGroup.GET("/", artwork.List)
-				v1AboutGroup.POST("/", artwork.Create)
-				v1AboutGroup.DELETE("/:id", artwork.Delete)
-				v1AboutGroup.PUT("/:id", artwork.Update)
+				v1AboutGroup.GET("/", about.Get)
+				v1AboutGroup.POST("/", about.Upsert)
 			}
 		}
 	}

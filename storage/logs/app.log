@@ -14,3 +14,5 @@
 2025/01/23 17:35:20 {"callers":["/Users/henry/Git/Outsourcing/artwork-backend/main.go: 28 main.init.0"],"level":"error","message":"svc.GetArtwork err: record not found","time":1737624920194523000}
 2025/01/23 17:35:22 {"callers":["/Users/henry/Git/Outsourcing/artwork-backend/main.go: 28 main.init.0"],"level":"error","message":"svc.GetArtwork err: record not found","time":1737624922107066000}
 2025/01/23 17:36:27 {"callers":["/Users/henry/Git/Outsourcing/artwork-backend/main.go: 28 main.init.0"],"level":"error","message":"svc.GetArtwork err: record not found","time":1737624987612471000}
+2025/01/24 15:13:46 {"callers":["/Users/henry/Git/Outsourcing/artwork-backend/main.go: 28 main.init.0"],"level":"error","message":"svc.UpsertAbout err: record not found","time":1737702826792639000}
+2025/01/24 15:15:56 {"callers":["/Users/henry/Git/Outsourcing/artwork-backend/main.go: 28 main.init.0"],"level":"error","message":"svc.UpsertAbout err: record not found","time":1737702956232610000}

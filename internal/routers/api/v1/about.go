@@ -2,6 +2,10 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/uidea/artwork-backend/global"
+	"github.com/uidea/artwork-backend/internal/service"
+	"github.com/uidea/artwork-backend/pkg/app"
+	"github.com/uidea/artwork-backend/pkg/errcode"
 )
 
 type About struct{}
@@ -10,12 +14,37 @@ func NewAbout() About {
 	return About{}
 }
 
-func (t About) Get(c *gin.Context) {}
+func (a About) Upsert(c *gin.Context) {
+	param := service.UpsertAboutRequest{}
+	response := app.NewResponse(c)
+	vaild, errs := app.BindAndValid(c, &param)
 
-func (t About) List(c *gin.Context) {}
+	if !vaild {
+		global.Logger.Errorf(c, "app.BindAndValid errs: %v", errs)
+		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
+		return
+	}
 
-func (t About) Create(c *gin.Context) {}
+	svc := service.New(c.Request.Context())
+	err := svc.UpsertAbout(&param)
 
-func (t About) Update(c *gin.Context) {}
+	if err != nil {
+		global.Logger.Errorf(c, "svc.UpsertAbout err: %v", err)
+		response.ToErrorResponse(errcode.AlreadyExistsRecord.WithDetails(err.Error()))
+		return
+	}
 
-func (t About) Delete(c *gin.Context) {}
+	response.ToResponse(gin.H{})
+}
+
+func (t About) Get(c *gin.Context) {
+	response := app.NewResponse(c)
+	svc := service.New(c.Request.Context())
+	artwork, err := svc.GetAbout()
+	if err != nil {
+		global.Logger.Errorf(c, "svc.GetArtwork err: %v", err)
+		response.ToErrorResponse(errcode.ErrorGetArtworkFail)
+		return
+	}
+	response.ToResponse(artwork)
+}

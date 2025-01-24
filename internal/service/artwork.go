@@ -24,7 +24,7 @@ type ArtworRequest struct {
 	ID uint32 `form:"id" binding:"required,gte=1"`
 }
 
-type UpdateArtworRequest struct {
+type UpdateArtwordRequest struct {
 	ID          uint32 `form:"id" binding:"required,gte=1"`
 	Title       string `json:"title"`
 	Cover       string `json:"cover"`
@@ -107,7 +107,7 @@ func (svc *Service) GetArtWorkList() ([]*model.Artwork, error) {
 	return svc.dao.ListArtWork()
 }
 
-func (svc *Service) UpdateArtWork(param *UpdateArtworRequest) error {
+func (svc *Service) UpdateArtWork(param *UpdateArtwordRequest) error {
 	return svc.dao.UpdateArtwork(
 		param.ID,
 		param.Title,
