@@ -47,37 +47,44 @@ func NewRouter() *gin.Engine {
 
 			v1AdminsGroup.POST("/", admin.Create)
 			v1AdminsGroup.GET("/profile", admin.Get)
-		}
 
-		v1UsersGroup := apiv1.Group("/users")
-		{
-			v1UsersGroup.POST("/", user.Create)
-			v1UsersGroup.GET("/:id", user.Get)
-			v1UsersGroup.GET("/", user.List)
-			v1UsersGroup.PUT("/:id", user.Update)
-			v1UsersGroup.DELETE("/:id", user.Delete)
-		}
+			v1UsersGroup := v1AdminsGroup.Group("/users")
+			{
+				v1UsersGroup.POST("/", user.Create)
+				v1UsersGroup.GET("/:id", user.Get)
+				v1UsersGroup.GET("/", user.List)
+				v1UsersGroup.PUT("/:id", user.Update)
+				v1UsersGroup.DELETE("/:id", user.Delete)
+			}
 
-		v1ArticlesGroup := apiv1.Group("/articles")
-		{
-			v1ArticlesGroup.GET("/:id", article.Get)
-			v1ArticlesGroup.GET("/", article.List)
-			v1ArticlesGroup.POST("/", article.Create)
-			v1ArticlesGroup.DELETE("/:id", article.Delete)
-			v1ArticlesGroup.PUT("/:id", article.Update)
-			v1ArticlesGroup.PATCH("/:id/state", article.Update)
-		}
+			v1ArticlesGroup := v1AdminsGroup.Group("/articles")
+			{
+				v1ArticlesGroup.GET("/:id", article.Get)
+				v1ArticlesGroup.GET("/", article.List)
+				v1ArticlesGroup.POST("/", article.Create)
+				v1ArticlesGroup.DELETE("/:id", article.Delete)
+				v1ArticlesGroup.PUT("/:id", article.Update)
+				v1ArticlesGroup.PATCH("/:id/state", article.Update)
+			}
 
-		v1ArtworksGroup := apiv1.Group("/artworks")
-		{
-			v1ArtworksGroup.GET("/:id", artwork.Get)
-			v1ArtworksGroup.GET("/", artwork.List)
-			v1ArtworksGroup.POST("/", artwork.Create)
-			v1ArtworksGroup.DELETE("/:id", artwork.Delete)
-			v1ArtworksGroup.PUT("/:id", artwork.Update)
-			v1ArtworksGroup.PATCH("/:id/state", artwork.Update)
-		}
+			v1ArtworksGroup := v1AdminsGroup.Group("/artworks")
+			{
+				v1ArtworksGroup.GET("/:id", artwork.Get)
+				v1ArtworksGroup.GET("/", artwork.List)
+				v1ArtworksGroup.POST("/", artwork.Create)
+				v1ArtworksGroup.DELETE("/:id", artwork.Delete)
+				v1ArtworksGroup.PUT("/:id", artwork.Update)
+			}
 
+			v1AboutGroup := v1AdminsGroup.Group("/abouts")
+			{
+				v1AboutGroup.GET("/:id", artwork.Get)
+				v1AboutGroup.GET("/", artwork.List)
+				v1AboutGroup.POST("/", artwork.Create)
+				v1AboutGroup.DELETE("/:id", artwork.Delete)
+				v1AboutGroup.PUT("/:id", artwork.Update)
+			}
+		}
 	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return r

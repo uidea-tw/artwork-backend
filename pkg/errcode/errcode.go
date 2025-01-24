@@ -73,6 +73,8 @@ func (e *Error) StatusCode() int {
 		return http.StatusConflict
 	case NotFoundRegisterAccount.Code():
 		return http.StatusNotFound
+	case ErrorGetArtworkFail.Code():
+		return http.StatusNotFound
 	}
 
 	return http.StatusInternalServerError

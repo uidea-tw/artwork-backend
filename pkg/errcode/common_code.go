@@ -18,4 +18,7 @@ var (
 
 	ErrorGetUserFail    = NewError(20040003, "取得作者資訊失敗")
 	ErrorDeleteUserFail = NewError(20040004, "刪除作者失敗")
+
+	ErrorGetArtworkFail    = NewError(20040005, "取得作品資訊失敗")
+	ErrorDeleteArtworkFail = NewError(20040006, "刪除作品失敗")
 )
