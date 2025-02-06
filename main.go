@@ -6,9 +6,12 @@ import (
 	"os"
 	"time"
 
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/uidea/artwork-backend/global"
 	"github.com/uidea/artwork-backend/internal/model"
 	"github.com/uidea/artwork-backend/internal/routers"
+	"github.com/uidea/artwork-backend/pkg/app"
 	"github.com/uidea/artwork-backend/pkg/logger"
 	"github.com/uidea/artwork-backend/pkg/setting"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -29,6 +32,30 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupLogger err: %v", err)
 	}
+
+	err = setupMinio()
+	if err != nil {
+		log.Fatalf("init.setupMinio err: %v", err)
+	}
+
+}
+
+func setupMinio() error {
+	minioInfo := global.MinioSetting
+	minioClient, err := minio.New(minioInfo.Endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(minioInfo.AccessKeyID, minioInfo.SecretAccessKey, ""),
+		Secure: false,
+	})
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+	global.MinioClient = minioClient
+	err = app.CheckBuckets(minioClient)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return nil
 }
 
 func setupDBEngine() error {
@@ -59,6 +86,10 @@ func setupSetting() error {
 		return err
 	}
 	err = setting.ReadConfigField("JWT", &global.JWTSetting)
+	if err != nil {
+		return err
+	}
+	err = setting.ReadConfigField("Minio", &global.MinioSetting)
 	if err != nil {
 		return err
 	}

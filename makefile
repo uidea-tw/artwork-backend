@@ -15,7 +15,7 @@ migrate-down-force:
 	migrate -path db/migrations -database "postgresql://henry:password@localhost:5432/artwork?sslmode=disable" force 1
 
 migrate-up-online:
-	migrate -path db/migrations -database "postgresql://root:7RaUKxW8F64IH5dmCODs2B1Z0tvj3rg9@free.clusters.zeabur.com:31414/zeabur?sslmode=disable" -verbose up
+	migrate -path db/migrations -database "postgresql://root:71AYxBa30I8t6zRHU4rs29EpZheFqLi5@free.clusters.zeabur.com:32194/zeabur?sslmode=disable" -verbose up
 
 migrate-down-online:
 	migrate -path db/migrations -database "postgresql://root:7RaUKxW8F64IH5dmCODs2B1Z0tvj3rg9@free.clusters.zeabur.com:31414/zeabur?sslmode=disable" -verbose down

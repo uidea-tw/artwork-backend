@@ -1,7 +1,10 @@
 package service
 
 import (
+	"log"
 	"time"
+
+	"github.com/uidea/artwork-backend/pkg/app"
 )
 
 type UpsertAboutRequest struct {
@@ -18,12 +21,18 @@ type UpdateAboutRequest struct {
 }
 
 type About struct {
-	ID        uint32    `json:"id"`
-	Content   string    `json:"content"`
-	Cover     string    `json:"cover"`
-	CoverBlur string    `json:"cover_blur"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID        uint32     `json:"id"`
+	Content   string     `json:"content"`
+	Cover     FileFormat `json:"cover"`
+	CoverBlur FileFormat `json:"cover_blur"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+}
+
+type FileFormat struct {
+	Filename string `json:"filename"`
+	Url      string `json:"url"`
+	ID       string `json:"id"`
 }
 
 func (svc *Service) UpsertAbout(param *UpsertAboutRequest) error {
@@ -39,21 +48,34 @@ func (svc *Service) GetAbout() (*About, error) {
 	if err != nil {
 		return nil, err
 	}
+	bucketName := "testbucket"
+
+	coverPresignedURL, err := app.GetMinioPresignedURL(bucketName, about.CoverFile.StorageName)
+	if err != nil {
+		log.Println("❌ 無法產生 Presigned URL:", err)
+		return nil, err
+	}
+
+	coverBlurFilepresignedURL, err := app.GetMinioPresignedURL(bucketName, about.CoverBlurFile.StorageName)
+	if err != nil {
+		log.Println("❌ 無法產生 Presigned URL:", err)
+		return nil, err
+	}
+
 	return &About{
-		ID:        about.ID,
-		Content:   about.Content,
-		Cover:     about.Cover,
-		CoverBlur: about.CoverBlur,
+		ID:      about.ID,
+		Content: about.Content,
+		Cover: FileFormat{
+			Url:      coverPresignedURL.String(),
+			Filename: about.CoverFile.Filename,
+			ID:       about.CoverFile.ID,
+		},
+		CoverBlur: FileFormat{
+			Url:      coverBlurFilepresignedURL.String(),
+			Filename: about.CoverBlurFile.Filename,
+			ID:       about.CoverBlurFile.ID,
+		},
 		CreatedAt: about.CreatedAt,
 		UpdatedAt: about.UpdatedAt,
 	}, nil
-}
-
-func (svc *Service) UpdateAbout(param *UpdateAboutRequest) error {
-	return svc.dao.UpdateAbout(
-		param.ID,
-		param.Content,
-		param.Cover,
-		param.CoverBlur,
-	)
 }

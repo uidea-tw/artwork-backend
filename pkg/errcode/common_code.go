@@ -12,6 +12,9 @@ var (
 	NotFoundRegisterAccount   = NewError(1007, "找尋不到註冊帳號")
 	TooManyRequests           = NewError(1008, "請求過多")
 	AlreadyExistsRecord       = NewError(1009, "該資料已存在")
+	ErrorStoreRecord          = NewError(1010, "該資料儲存失敗")
+	ErrorDeleteRecord         = NewError(1011, "該資料刪除失敗")
+	ErrorGetFileFail          = NewError(1012, "該資料取得失敗")
 
 	ErrorAdmineFail = NewError(20040001, "建立管理員失敗")
 	ErrorUserFail   = NewError(20040002, "建立作者失敗")
@@ -21,4 +24,6 @@ var (
 
 	ErrorGetArtworkFail    = NewError(20040005, "取得作品資訊失敗")
 	ErrorDeleteArtworkFail = NewError(20040006, "刪除作品失敗")
+
+	ErrorDeleteFileFail = NewError(20040007, "刪除檔案失敗")
 )

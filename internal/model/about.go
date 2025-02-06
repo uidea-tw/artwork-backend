@@ -8,12 +8,14 @@ import (
 )
 
 type About struct {
-	ID        uint32    `gorm:"primary_key" json:"id"`
-	Content   string    `json:"content"`
-	Cover     string    `json:"cover"`
-	CoverBlur string    `json:"cover_blur"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID            uint32    `gorm:"primary_key" json:"id"`
+	Content       string    `json:"content"`
+	Cover         string    `json:"cover"`
+	CoverBlur     string    `json:"cover_blur"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	CoverFile     File      `gorm:"foreignKey:Cover;references:ID" json:"cover_file"`
+	CoverBlurFile File      `gorm:"foreignKey:CoverBlur;references:ID" json:"cover_blur_file"`
 }
 
 func (a About) TableName() string {
@@ -26,7 +28,7 @@ func (a About) Create(db *gorm.DB) error {
 
 func (a About) Get(db *gorm.DB) (*About, error) {
 	var about About
-	err := db.First(&about).Error
+	err := db.Preload("CoverFile").Preload("CoverBlurFile").First(&about).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, err
 	}

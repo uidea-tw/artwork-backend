@@ -48,6 +48,12 @@ type DatabaseSettingS struct {
 	MaxOpenConns int
 }
 
+type MinioSettingS struct {
+	Endpoint        string
+	AccessKeyID     string
+	SecretAccessKey string
+}
+
 func NewSetting() (*Setting, error) {
 	vp := viper.New()
 

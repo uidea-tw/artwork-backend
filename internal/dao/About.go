@@ -53,3 +53,8 @@ func (d *Dao) UpdateAbout(
 	}
 	return about.Update(d.engine, values)
 }
+
+// func (d *Dao) GetAboutFirst() (*model.About, error) {
+// 	about := model.About{}
+// 	return about.Get(d.engine)
+// }
