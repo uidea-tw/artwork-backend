@@ -83,14 +83,11 @@ func NewRouter() *gin.Engine {
 				v1AboutGroup.GET("/", about.Get)
 				v1AboutGroup.POST("/", about.Upsert)
 			}
-
-			v1UploadGroup := v1AdminsGroup.Group("/upload")
-			{
-				v1UploadGroup.GET("/:id", upload.Get)
-				v1UploadGroup.POST("/", upload.Create)
-				v1UploadGroup.DELETE("/:id", upload.Delete)
-			}
 		}
+
+		apiv1.GET("/:id", upload.Get)
+		apiv1.POST("/", upload.Create)
+		apiv1.DELETE("/:id", upload.Delete)
 	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return r
