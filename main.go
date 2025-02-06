@@ -17,6 +17,12 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
+type MinioConfig struct {
+	Endpoint        string
+	AccessKeyID     string
+	SecretAccessKey string
+}
+
 func init() {
 	err := setupSetting()
 	if err != nil {
@@ -41,9 +47,25 @@ func init() {
 }
 
 func setupMinio() error {
-	minioInfo := global.MinioSetting
-	minioClient, err := minio.New(minioInfo.Endpoint, &minio.Options{
-		Creds:  credentials.NewStaticV4(minioInfo.AccessKeyID, minioInfo.SecretAccessKey, ""),
+	appEnv := os.Getenv("APP_ENV")
+	var conf *MinioConfig
+
+	if appEnv == "production" {
+		conf = &MinioConfig{
+			Endpoint:        os.Getenv("MINIO_ENDPOINT"),
+			AccessKeyID:     os.Getenv("MINIO_ACCESSKEYID"),
+			SecretAccessKey: os.Getenv("MINIO_SECRETACCESSKEY"),
+		}
+	} else {
+		conf = &MinioConfig{
+			Endpoint:        global.MinioSetting.Endpoint,
+			AccessKeyID:     global.MinioSetting.AccessKeyID,
+			SecretAccessKey: global.MinioSetting.SecretAccessKey,
+		}
+	}
+
+	minioClient, err := minio.New(conf.Endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(conf.AccessKeyID, conf.SecretAccessKey, ""),
 		Secure: false,
 	})
 
