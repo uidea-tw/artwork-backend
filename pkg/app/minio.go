@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"net/url"
+	"os"
 	"time"
 
 	"github.com/minio/minio-go/v7"
@@ -11,8 +12,14 @@ import (
 )
 
 func CheckBuckets(minioClient *minio.Client) error {
+	appEnv := os.Getenv("APP_ENV")
+	var bucketName string
+	if appEnv == "production" {
+		bucketName = os.Getenv("MINIO_BUCKETNAME")
+	} else {
+		bucketName = "testbucket"
+	}
 	ctx := context.Background()
-	bucketName := "testbucket"
 	err := minioClient.MakeBucket(context.Background(), bucketName, minio.MakeBucketOptions{})
 	if err != nil {
 		exists, errBucketExists := minioClient.BucketExists(ctx, bucketName)

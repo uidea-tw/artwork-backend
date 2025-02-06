@@ -2,6 +2,7 @@ package service
 
 import (
 	"log"
+	"os"
 	"time"
 
 	"github.com/uidea/artwork-backend/pkg/app"
@@ -48,7 +49,14 @@ func (svc *Service) GetAbout() (*About, error) {
 	if err != nil {
 		return nil, err
 	}
-	bucketName := "testbucket"
+
+	appEnv := os.Getenv("APP_ENV")
+	var bucketName string
+	if appEnv == "production" {
+		bucketName = os.Getenv("MINIO_BUCKETNAME")
+	} else {
+		bucketName = "testbucket"
+	}
 
 	coverPresignedURL, err := app.GetMinioPresignedURL(bucketName, about.CoverFile.StorageName)
 	if err != nil {

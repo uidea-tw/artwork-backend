@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -22,7 +23,13 @@ func NewUpload() Upload {
 
 func (u Upload) Get(c *gin.Context) {
 	response := app.NewResponse(c)
-	bucketName := "testbucket"
+	appEnv := os.Getenv("APP_ENV")
+	var bucketName string
+	if appEnv == "production" {
+		bucketName = os.Getenv("MINIO_BUCKETNAME")
+	} else {
+		bucketName = "testbucket"
+	}
 	id := c.Param("id")
 
 	svc := service.New(c.Request.Context())
@@ -62,15 +69,23 @@ func (u Upload) Create(c *gin.Context) {
 
 	fileUUID := uuid.New().String()
 
+	appEnv := os.Getenv("APP_ENV")
+	var bucketName string
+	if appEnv == "production" {
+		bucketName = os.Getenv("MINIO_BUCKETNAME")
+	} else {
+		bucketName = "testbucket"
+	}
+
 	// 設定 Content-Type
 	contentType := header.Header.Get("Content-Type")
 	newFileName := fileUUID + app.FileTypeFormat(contentType)
 	uploadInfo, err := global.MinioClient.PutObject(
 		context.Background(),
-		"testbucket", // Bucket 名稱
-		newFileName,  // 檔案名稱
-		file,         // 檔案內容
-		header.Size,  // 檔案大小
+		bucketName,  // Bucket 名稱
+		newFileName, // 檔案名稱
+		file,        // 檔案內容
+		header.Size, // 檔案大小
 		minio.PutObjectOptions{ContentType: contentType},
 	)
 	if err != nil {
